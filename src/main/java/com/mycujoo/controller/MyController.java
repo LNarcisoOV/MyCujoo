@@ -27,8 +27,8 @@ public class MyController {
 		.setHeaderParam("typ", "JWT")
 		.setIssuer("MyCujoo Service")
 		.setSubject("Subject Example")
-		.claim("name", "Leonardo Narciso")
-	    .claim("scope", "Developer")
+		.claim("name", TextCodec.BASE64.encode("Leonardo Narciso"))
+	    .claim("scope", TextCodec.BASE64.encode("Admin"))
 	    .setIssuedAt(Date.from(Instant.ofEpochSecond(1466796822L)))
 	    .setExpiration(Date.from(Instant.ofEpochSecond(4622470422L)))
 	    .signWith(
@@ -46,11 +46,10 @@ public class MyController {
 		
 		String jsonResponse = "";	
 		try{
-			Base64 base64 = new Base64(true);
 			String[] splitJwt = jwtToken.split("\\.");
-			String headerJwtToken = new String(base64.decode(splitJwt[0]));
-			String bodyJwtToken = new String(base64.decode(splitJwt[1]));
-			String signatureJwtToken = new String(base64.decode(splitJwt[2]));
+			String headerJwtToken = new String(TextCodec.BASE64.decode(splitJwt[0]));
+			String bodyJwtToken = new String(TextCodec.BASE64.decode(splitJwt[1]));
+			String signatureJwtToken = new String(TextCodec.BASE64.decode(splitJwt[2]));
 			
 			jsonResponse =  headerJwtToken + bodyJwtToken + signatureJwtToken;
 			response.getWriter().write(jsonResponse);
