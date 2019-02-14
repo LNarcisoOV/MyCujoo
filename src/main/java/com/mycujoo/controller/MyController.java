@@ -44,7 +44,7 @@ public class MyController {
 	    .setExpiration(Date.from(Instant.ofEpochSecond(4622470422L)))
 	    .signWith(
 	      SignatureAlgorithm.HS256,
-	      TextCodec.BASE64.encode("secret key example")
+	      "secret key example"
 	    )
 	    .compact();
 		return jwt;
@@ -57,13 +57,6 @@ public class MyController {
 		String jsonResponse = "";	
 		
 		try{			
-			URL url = new URL("http://localhost:8080/MyCujoo/jwt");
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			
-			if(conn.getResponseCode() != HTTP_CODE_SUCCESS){
-				throw new RuntimeException("HTTP error code : "+ conn.getResponseCode());
-			}
-			
 			String[] splitJwt = jwtToken.split("\\.");
 			String headerJwtToken = new String(TextCodec.BASE64.decode(splitJwt[0]));
 			String bodyJwtToken = new String(TextCodec.BASE64.decode(splitJwt[1]));
